@@ -19,10 +19,10 @@ app.use(express.static('public', { extensions: ['html'] }));
 // -- Routes --------------------------------------------------
 // Register your routes below this line
 app.post('/users', createUser);
-app.post('/athleteProfiles', CreateAthleteProfile);
+app.post('/athleteProfiles/:userId', CreateAthleteProfile);
 
 app.post('/pickupGames', CreatePickupGame);
-app.post('/pickupGames/:pickupGameId/:userId', joinPickupGame);
+app.post('/pickupGames/:pickupGameId/join', joinPickupGame);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

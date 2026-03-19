@@ -19,7 +19,7 @@ export function CreatePickupGame(req: Request, res: Response): void {
     title: result.data.title,
     description: result.data.description,
     locationName: result.data.locationName,
-    date: new Date().toISOString(),
+    date: result.data.date,
     time: result.data.time,
     maxPlayers: result.data.maxPlayers,
     skillLevelRequired: result.data.skillLevelRequired,
@@ -41,10 +41,20 @@ export function joinPickupGame(req: Request, res: Response): void {
     return;
   }
 
+  if (pickupGame.players.includes(userId)) {
+    res.status(400).json({ message: 'User already joined this game' });
+    return;
+  }
+
+  if (pickupGame.players.length >= pickupGame.maxPlayers) {
+    res.status(400).json({ message: 'Game is full' });
+    return;
+  }
+
   pickupGame.players.push(userId);
 
   res.status(200).json({
     message: 'Joined successfully',
-    pickupGameId,
+    pickupGame,
   });
 }

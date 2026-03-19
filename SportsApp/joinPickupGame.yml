@@ -5,10 +5,13 @@ info:
 
 http:
   method: POST
-  url: /pickupGames/2/1
+  url: http://localhost:9926/pickupGames/1/join
   body:
     type: json
-    data: ""
+    data: |-
+      {
+        "userId": "2"
+      }
   auth: inherit
 
 settings:

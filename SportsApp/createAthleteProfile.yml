@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: http://localhost:9926/athleteProfiles
+  url: http://localhost:9926/athleteProfiles/1
   body:
     type: json
     data: |-
