@@ -27,3 +27,15 @@ export function createUser(req: Request, res: Response): void {
   users.push(newUser);
   res.status(201).json(newUser);
 }
+
+export function getUser(req: Request, res: Response): void {
+  const userId = String(req.params.userId);
+  const user = users.find((p) => p.id === userId);
+
+  if (!user) {
+    res.status(404).json({ message: 'User not found' });
+    return;
+  }
+
+  res.status(200).json(users);
+}

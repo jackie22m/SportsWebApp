@@ -1,7 +1,12 @@
 import express, { Express } from 'express';
 import './config.js'; // do not remove this line
-import { createUser } from './controllers/User.js';
-import { CreateAthleteProfile } from './controllers/athleteProfile.js';
+import { createUser, getUser } from './controllers/User.js';
+import {
+  CreateAthleteProfile,
+  getAthleteProfile,
+  ViewProfile,
+  getAthleteProfileBySport,
+} from './controllers/athleteProfile.js';
 import { CreatePickupGame, joinPickupGame } from './controllers/pickupGame.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
@@ -19,7 +24,12 @@ app.use(express.static('public', { extensions: ['html'] }));
 // -- Routes --------------------------------------------------
 // Register your routes below this line
 app.post('/users', createUser);
+app.get('/users/:userId', getUser);
+
 app.post('/athleteProfiles/:userId', CreateAthleteProfile);
+app.get('/athleteProfiles/:userId', ViewProfile);
+app.get('/athleteProfiles/:userId', getAthleteProfile);
+app.get('/athleteProfiles', getAthleteProfileBySport);
 
 app.post('/pickupGames', CreatePickupGame);
 app.post('/pickupGames/:pickupGameId/join', joinPickupGame);

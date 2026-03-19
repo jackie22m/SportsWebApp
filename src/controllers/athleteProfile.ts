@@ -28,3 +28,37 @@ export function CreateAthleteProfile(req: Request, res: Response): void {
   athleteProfiles.push(newAthleteProfile);
   res.status(201).json(newAthleteProfile);
 }
+
+export function ViewProfile(req: Request, res: Response): void {
+  const userId = req.params.userId;
+  const profile = athleteProfiles.find((p) => p.userId === userId);
+
+  if (!profile) {
+    res.status(404).json({ message: 'Profile not found' });
+    return;
+  }
+
+  res.status(200).json(profile);
+}
+
+export function getAthleteProfile(req: Request, res: Response): void {
+  const userId = String(req.params.userId);
+  const athlete = athleteProfiles.find((p) => p.id === userId);
+
+  if (!athlete) {
+    res.status(404).json({ message: 'Athlete profile not found' });
+    return;
+  }
+
+  res.status(200).json(athlete);
+}
+
+export function getAthleteProfileBySport(req: Request, res: Response): void {
+  let result = athleteProfiles;
+  const { sport } = req.query;
+
+  if (sport) {
+    result = result.filter((p) => p.primarySport === sport); // filtered by sport
+  }
+  res.status(200).json(result);
+}
