@@ -1,0 +1,29 @@
+info:
+  name: createPickupGame
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://localhost:9926/pickupGames
+  body:
+    type: json
+    data: |-
+      {
+        "bio": "soccer player", 
+        "sport": "soccer",
+        "title": "lets play",
+        "description": "need players", 
+        "locationName": "astate",
+        "date": "March 7 2026", 
+        "time": "1 pm", 
+        "maxPlayers": 10, 
+        "skillLevelRequired": "Beginner"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
