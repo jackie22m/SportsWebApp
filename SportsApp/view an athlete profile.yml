@@ -1,7 +1,7 @@
 info:
   name: view an athlete profile
   type: http
-  seq: 11
+  seq: 5
 
 http:
   method: GET

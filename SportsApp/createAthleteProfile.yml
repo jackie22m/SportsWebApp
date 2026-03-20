@@ -1,7 +1,7 @@
 info:
   name: createAthleteProfile
   type: http
-  seq: 3
+  seq: 2
 
 http:
   method: POST
@@ -14,7 +14,8 @@ http:
         "primarySport": "soccer", 
         "seondarySport": "basketball",
         "position": "goalkeeper",
-        "skillLevel": "Professional"
+        "skillLevel": "Professional",
+        "location": "Jonesboro"
       }
   auth: inherit
 

@@ -58,3 +58,15 @@ export function joinPickupGame(req: Request, res: Response): void {
     pickupGame,
   });
 }
+
+export function viewPickupGameDetails(req: Request, res: Response): void {
+  const pickupGameId = req.params.pickupGameId;
+  const game = pickupGames.find((p) => p.id === pickupGameId);
+
+  if (!game) {
+    res.status(404).json({ message: 'Pickup game not found' });
+    return;
+  }
+
+  res.status(200).json(game);
+}

@@ -8,5 +8,5 @@ export type athleteProfile = {
   secondarySport: string;
   position: string;
   skillLevel: 'Beginner' | 'Intermediate' | 'Advanced' | 'Professional';
-  locationCity: string;
+  location: string;
 };

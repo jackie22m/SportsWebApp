@@ -6,8 +6,13 @@ import {
   getAthleteProfile,
   ViewProfile,
   getAthleteProfileBySport,
+  getAthleteProfileByLocation,
 } from './controllers/athleteProfile.js';
-import { CreatePickupGame, joinPickupGame } from './controllers/pickupGame.js';
+import {
+  CreatePickupGame,
+  joinPickupGame,
+  viewPickupGameDetails,
+} from './controllers/pickupGame.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -30,9 +35,11 @@ app.post('/athleteProfiles/:userId', CreateAthleteProfile);
 app.get('/athleteProfiles/:userId', ViewProfile);
 app.get('/athleteProfiles/:userId', getAthleteProfile);
 app.get('/athleteProfiles', getAthleteProfileBySport);
+app.get('/athleteProfiles', getAthleteProfileByLocation);
 
 app.post('/pickupGames', CreatePickupGame);
 app.post('/pickupGames/:pickupGameId/join', joinPickupGame);
+app.get('/pickupGames/:pickupGameId', viewPickupGameDetails);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

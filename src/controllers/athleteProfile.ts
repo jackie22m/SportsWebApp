@@ -7,6 +7,12 @@ export function CreateAthleteProfile(req: Request, res: Response): void {
   const result = CreateAthleteProfileSchema.safeParse(req.body);
   const userId = String(req.params.userId);
 
+  const existingProfile = athleteProfiles.find((p) => p.userId === userId);
+  if (existingProfile) {
+    res.status(400).json({ message: 'Athlete profile already exists for this user' });
+    return;
+  }
+
   if (!result.success) {
     res.status(400).json({ errors: result.error });
     return;
@@ -22,7 +28,7 @@ export function CreateAthleteProfile(req: Request, res: Response): void {
     secondarySport: result.data.secondarySport,
     position: result.data.position,
     skillLevel: result.data.skillLevel,
-    locationCity: result.data.locationCity,
+    location: result.data.location,
   };
 
   athleteProfiles.push(newAthleteProfile);
@@ -58,7 +64,18 @@ export function getAthleteProfileBySport(req: Request, res: Response): void {
   const { sport } = req.query;
 
   if (sport) {
-    result = result.filter((p) => p.primarySport === sport); // filtered by sport
+    result = result.filter((p) => p.primarySport || p.secondarySport === sport); // filtered by sport
+  }
+
+  res.status(200).json(result);
+}
+
+export function getAthleteProfileByLocation(req: Request, res: Response): void {
+  let result = athleteProfiles;
+  const { location } = req.query;
+
+  if (location) {
+    result = result.filter((p) => p.location === location); // filtered by sport
   }
   res.status(200).json(result);
 }
