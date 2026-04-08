@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: http://localhost:9926/athleteProfiles/?location=searcy
+  url: http://localhost:9926/athleteProfiles/?location=Jonesboro
   params:
     - name: location
-      value: searcy
+      value: Jonesboro
       type: query
   auth: inherit
 

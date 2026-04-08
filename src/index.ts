@@ -4,14 +4,21 @@ import { createUser, getUser } from './controllers/User.js';
 import {
   CreateAthleteProfile,
   getAthleteProfile,
-  ViewProfile,
-  getAthleteProfileBySport,
   getAthleteProfileByLocation,
+  getAthleteProfileBySport,
+  ViewProfile,
 } from './controllers/athleteProfile.js';
 import {
-  CreatePickupGame,
-  joinPickupGame,
-  viewPickupGameDetails,
+  createPickupGame,
+  deletePickupGame,
+  getAllPickupGames,
+  getPickupGameById,
+  getPickupGamesByDate,
+  getPickupGamesByLocation,
+  getPickupGamesBySport,
+  getPickupGamesByTime,
+  leavePickupGame,
+  updatePickupGame,
 } from './controllers/pickupGame.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
@@ -37,9 +44,19 @@ app.get('/athleteProfiles/:userId', getAthleteProfile);
 app.get('/athleteProfiles', getAthleteProfileBySport);
 app.get('/athleteProfiles', getAthleteProfileByLocation);
 
-app.post('/pickupGames', CreatePickupGame);
-app.post('/pickupGames/:pickupGameId/join', joinPickupGame);
-app.get('/pickupGames/:pickupGameId', viewPickupGameDetails);
+// PICKUP GAMES
+app.post('/pickupGames', createPickupGame);
+app.get('/pickupGames', getAllPickupGames);
+// Filters
+app.get('/pickupGames/:pickupGameId', getPickupGameById);
+app.get('/pickupGames/sport', getPickupGamesBySport);
+app.get('/pickupGames/location', getPickupGamesByLocation);
+app.get('/pickupGames/date', getPickupGamesByDate);
+app.get('/pickupGames/time', getPickupGamesByTime);
+
+app.put('/pickupGames/:pickupGameId/leave', leavePickupGame);
+app.put('/pickupGames/:pickupGameId', updatePickupGame);
+app.delete('/pickupGames/:pickupGameId', deletePickupGame);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

@@ -71,11 +71,16 @@ export function getAthleteProfileBySport(req: Request, res: Response): void {
 }
 
 export function getAthleteProfileByLocation(req: Request, res: Response): void {
-  let result = athleteProfiles;
-  const { location } = req.query;
+  const location = req.query.location as string;
 
   if (location) {
-    result = result.filter((p) => p.location === location); // filtered by sport
+    const filteredProfiles = athleteProfiles.filter(
+      (profile) => profile.location.toLowerCase() === location.toLowerCase(),
+    );
+
+    res.status(200).json(filteredProfiles);
+    return;
   }
-  res.status(200).json(result);
+
+  res.status(200).json(athleteProfiles);
 }
