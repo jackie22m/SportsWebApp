@@ -1,19 +1,17 @@
 info:
-  name: createUser
+  name: Update user info
   type: http
-  seq: 1
+  seq: 3
 
 http:
-  method: POST
-  url: http://localhost:9926/users
+  method: PATCH
+  url: http://localhost:9926/users/019da19c-ac5c-713b-9042-61c961972065
   body:
     type: json
-    data: |
+    data: |-
       {
         "name": "Jackie Martinez",
-        "displayName": "Jackie",
-        "email": "jackie@example.com",
-        "password": "mypassword123"
+        "email": "jackie@example.com"
       }
   auth: inherit
 

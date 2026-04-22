@@ -1,0 +1,15 @@
+info:
+  name: Delete athlete profile
+  type: http
+  seq: 28
+
+http:
+  method: DELETE
+  url: http://localhost:9926/athleteProfiles/019da19c-ac5c-713b-9042-61c961972065
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

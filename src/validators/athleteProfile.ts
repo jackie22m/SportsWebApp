@@ -6,7 +6,7 @@ export const CreateAthleteProfileSchema = z.object({
   secondarySport: z.string().min(2).max(50).optional(),
   position: z.string().min(2).max(100),
   skillLevel: z.enum(['Beginner', 'Intermediate', 'Advanced', 'Professional']),
-  location: z.string().max(300).default('Location Not Avalailable'),
+  location: z.string().min(2).max(100),
 });
 
 export type CreateAthleteProfileBody = z.infer<typeof CreateAthleteProfileSchema>;

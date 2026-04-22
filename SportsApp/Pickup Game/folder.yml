@@ -1,0 +1,7 @@
+info:
+  name: Pickup Game
+  type: folder
+  seq: 31
+
+request:
+  auth: inherit

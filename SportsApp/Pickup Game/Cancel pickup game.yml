@@ -1,0 +1,15 @@
+info:
+  name: Cancel pickup game
+  type: http
+  seq: 40
+
+http:
+  method: DELETE
+  url: http://localhost:9926/pickupGames/019db146-3c85-727e-a3c7-581b1f0a2426
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,21 @@
+info:
+  name: Join a pickup game
+  type: http
+  seq: 41
+
+http:
+  method: POST
+  url: http://localhost:9926/pickupGames/join/019db2be-6eda-76ed-8973-c4083593e058
+  body:
+    type: json
+    data: |-
+      {
+        "status":"joined"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

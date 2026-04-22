@@ -1,0 +1,15 @@
+info:
+  name: Delete an account (admin)
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: http://localhost:9926/admin/users/019da1b0-a6f7-7389-a097-6ef328f60e87
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

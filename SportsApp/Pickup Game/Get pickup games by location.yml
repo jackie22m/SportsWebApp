@@ -1,14 +1,14 @@
 info:
-  name: Get athlete by location
+  name: Get pickup games by location
   type: http
-  seq: 8
+  seq: 36
 
 http:
   method: GET
-  url: http://localhost:9926/athleteProfiles/?location=Jonesboro
+  url: http://localhost:9926/pickupGames?location=Jonesboro, AR
   params:
     - name: location
-      value: Jonesboro
+      value: Jonesboro, AR
       type: query
   auth: inherit
 

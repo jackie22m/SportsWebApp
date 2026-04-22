@@ -1,0 +1,15 @@
+info:
+  name: List upcoming games
+  type: http
+  seq: 33
+
+http:
+  method: GET
+  url: http://localhost:9926/pickupGames
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
