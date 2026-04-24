@@ -1,11 +1,11 @@
 info:
-  name: Cancel pickup game
+  name: Leave a pickup game
   type: http
-  seq: 10
+  seq: 11
 
 http:
   method: DELETE
-  url: http://localhost:9926/pickupGames/019db146-3c85-727e-a3c7-581b1f0a2426
+  url: http://localhost:9926/pickupGames/leave/019db2be-6eda-76ed-8973-c4083593e058
   auth: inherit
 
 settings:

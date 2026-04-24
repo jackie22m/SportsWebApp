@@ -1,7 +1,7 @@
 info:
   name: Get pickup games by sport
   type: http
-  seq: 35
+  seq: 5
 
 http:
   method: GET

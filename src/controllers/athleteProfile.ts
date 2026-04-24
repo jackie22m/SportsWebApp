@@ -152,7 +152,7 @@ async function updateAthleteProfile(req: Request, res: Response): Promise<void> 
     return;
   }
 
-  res.status(404).json({ message: 'Athlete not found' });
+  res.status(200).json({ message: 'Update complete' });
   return;
 }
 

@@ -1,0 +1,21 @@
+info:
+  name: Update game participation status
+  type: http
+  seq: 49
+
+http:
+  method: PATCH
+  url: http://localhost:9926/pickupGames/019db2be-6eda-76ed-8973-c4083593e058/players/019da19c-ac5c-713b-9042-61c961972065
+  body:
+    type: json
+    data: |-
+      {
+        "status": "left"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

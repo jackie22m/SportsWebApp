@@ -1,7 +1,7 @@
 info:
   name: Join a pickup game
   type: http
-  seq: 41
+  seq: 12
 
 http:
   method: POST

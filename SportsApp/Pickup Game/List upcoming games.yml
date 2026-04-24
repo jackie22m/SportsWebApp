@@ -1,7 +1,7 @@
 info:
   name: List upcoming games
   type: http
-  seq: 33
+  seq: 4
 
 http:
   method: GET

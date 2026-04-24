@@ -1,6 +1,7 @@
 import {
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -43,4 +44,13 @@ export class gameParticipation {
     default: 'joined',
   })
   status: 'joined' | 'left';
+
+  @Column({
+    type: 'enum',
+    enum: ['organizer', 'player'],
+    default: 'player',
+  })
+  role: 'organizer' | 'player';
+
+  @CreateDateColumn() joinedAt: Date;
 }

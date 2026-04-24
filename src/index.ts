@@ -10,7 +10,13 @@ import {
   updateAthleteProfile,
   viewMyAthleteProfile,
 } from './controllers/athleteProfile.js';
-import { joinAGame } from './controllers/gameParticipation.js';
+import {
+  getMyGames,
+  joinAGame,
+  leavePickupGame,
+  playersInGame,
+  updatePlayerGameStatus,
+} from './controllers/gameParticipation.js';
 import {
   cancelPickupGame,
   createPickupGame,
@@ -89,6 +95,10 @@ app.delete('/pickupGames/:gameId', cancelPickupGame); // cancel pickup game
 
 // Game Participation
 app.post('/pickupGames/join/:gameId', joinAGame); // join a pickup game
+app.delete('/pickupGames/leave/:gameId', leavePickupGame); // leave a pickup game
+app.get('/pickupGames/players/:gameId', playersInGame); // get players in a game
+app.get('/users/me/games/', getMyGames); // get games a user is in
+app.patch('/pickUpGames/:gameId/players/:userId', updatePlayerGameStatus);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

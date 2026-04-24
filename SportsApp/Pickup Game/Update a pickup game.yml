@@ -1,7 +1,7 @@
 info:
   name: Update a pickup game
   type: http
-  seq: 39
+  seq: 9
 
 http:
   method: PATCH

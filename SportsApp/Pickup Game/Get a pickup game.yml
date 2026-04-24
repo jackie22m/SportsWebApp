@@ -1,7 +1,7 @@
 info:
   name: Get a pickup game
   type: http
-  seq: 32
+  seq: 3
 
 http:
   method: GET

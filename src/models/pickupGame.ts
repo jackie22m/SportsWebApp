@@ -94,10 +94,23 @@ async function deletePickupGame(gameId: string): Promise<void> {
   await pickupGameRepository.delete({ gameId });
 }
 
+async function getGameParticipants(gameId: string) {
+  const game = await pickupGameRepository.findOne({
+    where: { gameId },
+    relations: ['participants', 'participants.user'],
+  });
+
+  if (!game) return null;
+
+  // Only return users who are still joined
+  return game.participants.filter((p) => p.status === 'joined');
+}
+
 export {
   addPickupGame,
   deletePickupGame,
   getAllPickupGames,
+  getGameParticipants,
   getGamesByDate,
   getGamesByLocation,
   getGamesBySport,

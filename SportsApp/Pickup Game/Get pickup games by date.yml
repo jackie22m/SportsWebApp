@@ -1,7 +1,7 @@
 info:
   name: Get pickup games by date
   type: http
-  seq: 37
+  seq: 7
 
 http:
   method: GET
