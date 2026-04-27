@@ -10,4 +10,4 @@ export type Post = {
   createdAt: Date;
   updatedAt: Date;
   visibility: string;
-}
+};

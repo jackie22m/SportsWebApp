@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import './config.js'; // do not remove this line
 import { createUser } from './controllers/User.js';
-import { createPost } from './controllers/post.js';
+import { createPost, getPost } from './controllers/post.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -20,6 +20,7 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.post('/users', createUser);
 
 app.post('/posts', createPost);
+app.get('/posts', getPost);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

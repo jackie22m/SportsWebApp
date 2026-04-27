@@ -3,6 +3,7 @@ import { Post } from '../entities/post';
 import { postIdCounter, posts } from '../models/post';
 import { createPostSchema } from '../validators/post';
 
+//POST
 export function createPost(req: Request, res: Response): void {
   const result = createPostSchema.safeParse(req.body);
 
@@ -27,4 +28,16 @@ export function createPost(req: Request, res: Response): void {
 
   posts.push(newPost);
   res.status(201).json(newPost);
+}
+
+//GET
+export function getPost(req: Request, res: Response): void {
+  const postId = String(req.params.id);
+  const post = posts.find((p) => p.id === postId);
+
+  if (!post) {
+    res.status(404).json({ message: 'User not found' });
+    return;
+  }
+  res.status(200).json(posts);
 }
