@@ -12,6 +12,15 @@ import {
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { CreateUserSchema, LoginSchema } from '../validators/User.js';
 
+function getMe(req: Request, res: Response): void {
+  if (!req.session.isLoggedIn) {
+    res.sendStatus(401);
+    return;
+  }
+
+  res.json(req.session.authenticatedUser);
+}
+
 function toPublicUser(user: User) {
   return {
     userId: user.userId,
@@ -50,7 +59,11 @@ async function logIn(req: Request, res: Response): Promise<void> {
     }
 
     await req.session.clearSession();
-    req.session.authenticatedUser = { userId: user.userId, email: user.email };
+    req.session.authenticatedUser = {
+      userId: user.userId,
+      email: user.email,
+      displayName: user.name,
+    };
     req.session.isLoggedIn = true;
 
     res.sendStatus(200);
@@ -174,6 +187,7 @@ export {
   createUser,
   deleteMyAccount,
   getAllUsersController,
+  getMe,
   getMyProfile,
   getUser,
   logIn,

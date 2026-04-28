@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: http://localhost:9926/login
+  url: http://localhost:9926/api/login
   body:
     type: json
     data: |-

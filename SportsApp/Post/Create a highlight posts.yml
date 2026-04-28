@@ -1,0 +1,26 @@
+info:
+  name: Create a highlight posts
+  type: http
+  seq: 53
+
+http:
+  method: POST
+  url: http://localhost:9926/api/posts
+  body:
+    type: json
+    data: |
+      {
+        "type": "Highlight",
+        "text": "Best play of the night!",
+        "mediaUrl": "https://example.com/clip.mp4",
+        "sportsTag": "Football",
+        "topic": "Highlights",
+        "visibility": "Private"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

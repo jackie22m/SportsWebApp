@@ -1,0 +1,7 @@
+info:
+  name: Post
+  type: folder
+  seq: 51
+
+request:
+  auth: inherit

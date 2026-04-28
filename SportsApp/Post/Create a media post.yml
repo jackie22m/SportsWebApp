@@ -1,0 +1,26 @@
+info:
+  name: Create a media post
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9926/api/posts
+  body:
+    type: json
+    data: |-
+      {
+        "type": "Media",
+        "text": null,
+        "mediaUrl": "https://example.com/highlight.jpg",
+        "sportsTag": "Soccer",
+        "topic": "Highlights",
+        "visibility": "Public"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

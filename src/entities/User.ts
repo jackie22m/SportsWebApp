@@ -12,6 +12,7 @@ import { v7 as uuidv7 } from 'uuid';
 import { athleteProfile } from './athleteProfile.js';
 import { gameParticipation } from './gameParticipation.js';
 import { pickupGame } from './pickupGame.js';
+import { Post } from './post.js';
 
 @Entity({ name: 'users' })
 export class User {
@@ -61,4 +62,8 @@ export class User {
   // User can be in multiple participations
   @OneToMany(() => gameParticipation, (gameParticipation) => gameParticipation.user)
   gameParticipations: Relation<gameParticipation[]>;
+
+  // Use can have multple posts
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Relation<Post[]>;
 }

@@ -11,6 +11,7 @@ import {
 import { v7 as uuidv7 } from 'uuid';
 import { User } from './User.js';
 import { gameParticipation } from './gameParticipation.js';
+import { Post } from './post.js';
 
 @Entity({ name: 'pickupGame' })
 export class pickupGame {
@@ -59,4 +60,7 @@ export class pickupGame {
 
   @OneToMany(() => gameParticipation, (gp) => gp.game)
   participants: Relation<gameParticipation[]>;
+
+  @OneToMany(() => Post, (post) => post.game)
+  posts: Relation<Post[]>;
 }
