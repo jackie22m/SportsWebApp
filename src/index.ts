@@ -64,6 +64,13 @@ import {
   getReactionsForAPost,
   updateAReaction,
 } from './controllers/reaction.js';
+
+import { followAUser, unfollowAUser } from './controllers/follow.js';
+
+import { getMyFollowers, getUsersIFollow } from './controllers/follow.js';
+import { getAConversation, sendAMessage } from './controllers/message.js';
+
+import { getAllNotifications, markANotificationAsRead } from './controllers/notification.js';
 import { sessionMiddleware } from './sessionConfig.js';
 const app: Express = express();
 
@@ -147,11 +154,19 @@ app.get('/api/posts/:postId/reactions', getReactionsForAPost);
 app.put('/api/reactions/:reactionId', updateAReaction);
 app.delete('/api/reactions/:reactionId', deleteAReaction);
 
-// Follows
+// Follows NEEDS TESTING
+app.post('/api/follow', followAUser);
+app.delete('/api/follow/:followedUserId', unfollowAUser);
+app.get('/api/users/:userId/following', getUsersIFollow);
+app.get('/api/users/:userId/followers', getMyFollowers);
 
-// Messages
+// Messages NEEDS TESTING
+app.post('/api/messages', sendAMessage);
+app.get('/api/messages/conversation/:otherUserId', getAConversation);
 
-// Notifications
+// Notifications NEED TESTING
+app.get('/api/notifications', getAllNotifications);
+app.patch('/api/notifications/:notificationId/read', markANotificationAsRead);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);
