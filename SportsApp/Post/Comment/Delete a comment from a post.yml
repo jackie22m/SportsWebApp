@@ -1,0 +1,15 @@
+info:
+  name: Delete a comment from a post
+  type: http
+  seq: 65
+
+http:
+  method: DELETE
+  url: http://localhost:9926/api/comments/019dd602-2e14-737f-a2ad-0c822b36b8db
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

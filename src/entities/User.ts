@@ -10,9 +10,11 @@ import {
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 import { athleteProfile } from './athleteProfile.js';
+import { Comment } from './comment.js';
 import { gameParticipation } from './gameParticipation.js';
 import { pickupGame } from './pickupGame.js';
 import { Post } from './post.js';
+import { Reaction } from './reaction.js';
 
 @Entity({ name: 'users' })
 export class User {
@@ -63,7 +65,14 @@ export class User {
   @OneToMany(() => gameParticipation, (gameParticipation) => gameParticipation.user)
   gameParticipations: Relation<gameParticipation[]>;
 
-  // Use can have multple posts
+  // User can have multple posts
   @OneToMany(() => Post, (post) => post.user)
   posts: Relation<Post[]>;
+
+  // user can have multiple comments
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Relation<Comment[]>;
+
+  @OneToMany(() => Reaction, (reaction) => reaction.user)
+  reactions: Relation<Reaction[]>;
 }

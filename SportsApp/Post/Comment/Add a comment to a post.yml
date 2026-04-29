@@ -1,0 +1,21 @@
+info:
+  name: Add a comment to a post
+  type: http
+  seq: 62
+
+http:
+  method: POST
+  url: http://localhost:9926/api/posts/019dd56d-3a28-71a3-b366-b38afd2c844a/comments
+  body:
+    type: json
+    data: |-
+      {
+        "text": "Yuck!"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

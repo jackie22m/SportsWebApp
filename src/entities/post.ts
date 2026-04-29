@@ -5,13 +5,16 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 import { User } from './User.js';
+import { Comment } from './comment.js';
 import { pickupGame } from './pickupGame.js';
+import { Reaction } from './reaction.js';
 
 @Entity({ name: 'post' })
 export class Post {
@@ -27,6 +30,7 @@ export class Post {
   @Column()
   userId: string;
 
+  // many posts for 1 user
   @ManyToOne(() => User, (user) => user.posts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: Relation<User>;
@@ -35,6 +39,7 @@ export class Post {
   @Column({ nullable: true })
   gameId: string | null;
 
+  // many pickupGames for 1 user
   @ManyToOne(() => pickupGame, (game) => game.posts, { nullable: true })
   @JoinColumn({ name: 'gameId' })
   game: Relation<pickupGame> | null;
@@ -69,4 +74,12 @@ export class Post {
     default: 'Public',
   })
   visibility: 'Public' | 'Private';
+
+  // one post can have many comments
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Relation<Comment[]>;
+
+  // One post can have many reaction
+  @OneToMany(() => Reaction, (reaction) => reaction.post)
+  reactions: Relation<Reaction[]>;
 }

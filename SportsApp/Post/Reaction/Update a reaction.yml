@@ -1,0 +1,21 @@
+info:
+  name: Update a reaction
+  type: http
+  seq: 68
+
+http:
+  method: PUT
+  url: http://localhost:9926/api/reactions/019dd6ef-bc7a-700b-87b1-3e02c46ea880
+  body:
+    type: json
+    data: |-
+      {
+        "reactionType": "like"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

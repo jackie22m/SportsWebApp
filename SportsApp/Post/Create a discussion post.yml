@@ -1,7 +1,7 @@
 info:
   name: Create a discussion post
   type: http
-  seq: 52
+  seq: 3
 
 http:
   method: POST

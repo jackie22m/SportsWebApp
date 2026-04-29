@@ -1,0 +1,21 @@
+info:
+  name: Update a comment
+  type: http
+  seq: 64
+
+http:
+  method: PUT
+  url: http://localhost:9926/api/comments/019dd6a9-cc4a-7469-be4f-f30f1ec03844
+  body:
+    type: json
+    data: |-
+      {
+        "text": "updated comment"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

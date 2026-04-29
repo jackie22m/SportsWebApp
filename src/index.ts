@@ -50,6 +50,20 @@ import {
   getPostsByTopic,
   updateAPost,
 } from './controllers/post.js';
+
+import {
+  createComment,
+  deleteAComment,
+  getCommentsForAPost,
+  updateAComment,
+} from './controllers/comment.js';
+
+import {
+  addAReaction,
+  deleteAReaction,
+  getReactionsForAPost,
+  updateAReaction,
+} from './controllers/reaction.js';
 import { sessionMiddleware } from './sessionConfig.js';
 const app: Express = express();
 
@@ -92,7 +106,7 @@ app.delete('/api/athleteProfiles/:userId', deleteAthleteProfile);
 app.get('/api/athleteProfiles', getAllAthleteProfiles);
 
 // PICKUP GAMES
-app.post('/api/pickupGames', createPickupGame); // creating a pickup game
+app.post('/api/pickupGames/create', createPickupGame); // creating a pickup game
 //app.get('/pickupGames', getAllPickupGamesController); // get all pickup games
 app.get('/api/pickupGames/:gameId', getAPickupGame); // get a pickup game
 app.get('/api/pickupGames/upcoming', getUpcomingGames); // get upcoming games
@@ -116,10 +130,28 @@ app.patch('/api/pickUpGames/:gameId/players/:userId', updatePlayerGameStatus);
 app.post('/api/posts', createPost);
 app.get('/api/posts/:postId', getAPost);
 app.get('/api/posts', getFeed); // needs to remove user information
-app.get('/api/posts', getPostsBySportsTag);
-app.get('/api/posts', getPostsByTopic);
-app.put('/api/posts/:postId', updateAPost);
-app.delete('/api/posts/:postId', deleteAPost);
+app.get('/api/posts', getPostsBySportsTag); // doesn't work
+app.get('/api/posts', getPostsByTopic); // doesn't work
+app.put('/api/posts/:postId', updateAPost); // works
+app.delete('/api/posts/:postId', deleteAPost); // works
+
+//Comments
+app.post('/api/posts/:postId/comments', createComment);
+app.get('/api/posts/:postId/comments', getCommentsForAPost);
+app.put('/api/comments/:commentId', updateAComment);
+app.delete('/api/comments/:commentId', deleteAComment);
+
+// Reactions
+app.post('/api/posts/:postId/reactions', addAReaction);
+app.get('/api/posts/:postId/reactions', getReactionsForAPost);
+app.put('/api/reactions/:reactionId', updateAReaction);
+app.delete('/api/reactions/:reactionId', deleteAReaction);
+
+// Follows
+
+// Messages
+
+// Notifications
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);
