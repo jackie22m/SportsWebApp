@@ -7,7 +7,7 @@ import {
   getAnAthleteProfile,
   getAthleteProfilesByLocation,
   getAthleteProfilesBySport,
-  updateAthleteProfile,
+  updateMyAthleteProfile,
   viewMyAthleteProfile,
 } from './controllers/athleteProfile.js';
 import {
@@ -108,7 +108,7 @@ app.get('/api/athleteProfiles/me', viewMyAthleteProfile); // get my athlete prof
 app.get('/api/athleteProfiles/:userId', getAnAthleteProfile); // get another athlete profile
 app.get('/api/athleteProfiles', getAthleteProfilesBySport); // get athletes by sport
 app.get('/api/athleteProfiles', getAthleteProfilesByLocation); // get athletes by location
-app.patch('/api/athleteProfiles/:userId', updateAthleteProfile); // update athlete profile
+app.put('/api/athleteProfiles/me', updateMyAthleteProfile); // update athlete profile
 app.delete('/api/athleteProfiles/:userId', deleteAthleteProfile);
 app.get('/api/athleteProfiles', getAllAthleteProfiles);
 

@@ -5,12 +5,12 @@ info:
 
 http:
   method: POST
-  url: http://localhost:9926/athleteProfiles
+  url: http://localhost:9926/api/athleteProfiles
   body:
     type: json
     data: |-
       {
-        "bio": "Remontazoooo!",
+        "bio": ":)!",
         "primarySport": "Soccer",
         "position": "Forward",
         "skillLevel": "Advanced", 

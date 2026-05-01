@@ -10,7 +10,10 @@ import {
   updateAnAthleteProfile,
 } from '../models/athleteProfile.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
-import { CreateAthleteProfileSchema } from '../validators/athleteProfile.js';
+import {
+  CreateAthleteProfileSchema,
+  UpdateAthleteProfileSchema,
+} from '../validators/athleteProfile.js';
 
 async function getAllAthleteProfilesController(req: Request, res: Response): Promise<void> {
   const athletes = await getAllAthleteProfiles();
@@ -119,32 +122,29 @@ async function getAthleteProfilesByLocation(req: Request, res: Response): Promis
   }
 }
 
-async function updateAthleteProfile(req: Request, res: Response): Promise<void> {
+async function updateMyAthleteProfile(req: Request, res: Response): Promise<void> {
   const auth = req.session.authenticatedUser;
 
-  if (!auth || auth.userId !== req.params.userId) {
+  // User must be logged in AND can only edit their own profile
+  if (!auth) {
     res.status(403).json({ message: 'Forbidden' });
     return;
   }
 
-  // Validate
-  const result = CreateAthleteProfileSchema.safeParse(req.body);
+  const result = UpdateAthleteProfileSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({ errors: result.error.format() });
     return;
   }
 
-  // Ensure athlete profile exists
   const athlete = await getAthleteProfileById(auth.userId);
   if (!athlete) {
     res.status(404).json({ message: 'Athlete not found' });
     return;
   }
 
-  // Build updates object from validated data
   const updates: Partial<athleteProfile> = result.data;
 
-  // Perform update
   const updatedAthleteProfile = await updateAnAthleteProfile(auth.userId, updates);
 
   if (!updatedAthleteProfile) {
@@ -152,8 +152,7 @@ async function updateAthleteProfile(req: Request, res: Response): Promise<void> 
     return;
   }
 
-  res.status(200).json({ message: 'Update complete' });
-  return;
+  res.status(200).json(updatedAthleteProfile);
 }
 
 async function deleteAthleteProfile(req: Request, res: Response): Promise<void> {
@@ -179,6 +178,6 @@ export {
   getAnAthleteProfile,
   getAthleteProfilesByLocation,
   getAthleteProfilesBySport,
-  updateAthleteProfile,
+  updateMyAthleteProfile,
   viewMyAthleteProfile,
 };

@@ -1,11 +1,11 @@
 info:
-  name: Update athlete profile (userId)
+  name: Update athlete profile
   type: http
   seq: 24
 
 http:
   method: PATCH
-  url: http://localhost:9926/athleteProfiles/019da19c-ac5c-713b-9042-61c961972065
+  url: http://localhost:9926/api/athleteProfiles/me
   body:
     type: json
     data: |-

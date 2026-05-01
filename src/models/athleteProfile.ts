@@ -1,6 +1,9 @@
 import { AppDataSource } from '../dataSource.js';
 import { athleteProfile } from '../entities/athleteProfile.js';
-import { CreateAthleteProfileBody } from '../validators/athleteProfile.js';
+import {
+  CreateAthleteProfileBody,
+  UpdateAthleteProfileBody,
+} from '../validators/athleteProfile.js';
 export const athleteProfiles: athleteProfile[] = []; // delete
 export const athleteProfileIdCounter = { value: 1 }; // delete
 
@@ -45,7 +48,7 @@ async function getAthletesByLocation(location: string): Promise<athleteProfile[]
 
 async function updateAnAthleteProfile(
   userId: string,
-  updates: Partial<athleteProfile>,
+  updates: UpdateAthleteProfileBody,
 ): Promise<athleteProfile | null> {
   await athleteProfileRepository
     .createQueryBuilder()

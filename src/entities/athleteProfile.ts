@@ -6,6 +6,7 @@ import {
   OneToOne,
   PrimaryColumn,
   Relation,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './User.js';
 
@@ -16,7 +17,7 @@ export class athleteProfile {
 
   @CreateDateColumn() createdAt: Date;
 
-  @CreateDateColumn() updatedAt: Date;
+  @UpdateDateColumn() updatedAt: Date;
 
   @Column()
   bio: string;

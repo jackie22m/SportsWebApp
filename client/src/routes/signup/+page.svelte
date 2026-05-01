@@ -22,7 +22,7 @@
     }
 
     toast.success('Account created!');
-    goto('/athleteProfile');
+    goto('/dashboard');
   }
 </script>
 

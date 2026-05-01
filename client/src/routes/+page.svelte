@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { auth } from '$lib/auth.svelte';
   import { toast } from '$lib/toast.svelte';
 </script>
@@ -31,6 +32,9 @@
     <a href="/login" role="button">Log in</a>
     <a href="/signup" role="button">Sign up</a>
     <a href="/dashboard" role="button">Dashboard ** delete</a>
+    <a href="/athleteProfile" role="button">Athlete Profile</a>
+
+    <button onclick={() => goto('/logout')}>Log Out</button>
   </footer>
 </article>
 

@@ -7,7 +7,7 @@
   let primarySport = $state('');
   let secondarySport = $state('');
   let position = $state('');
-  let skillLevel = $state(['Beginner', 'Intermediate', 'Advanced', 'Professional']);
+  let skillLevel = $state('');
   let location = $state('');
   let submitting = $state(false);
 
@@ -51,7 +51,7 @@
 
   <label>
     Secondary sport
-    <input type="text" bind:value={secondarySport} required />
+    <input type="text" bind:value={secondarySport} />
   </label>
 
   <label>
@@ -68,8 +68,14 @@
       <option value="Professional">Professional</option>
     </select>
   </label>
+
+  <label>
+    Location
+    <input type="text" bind:value={location} required />
+  </label>
+
   <button type="submit" disabled={submitting}>
-    {submitting ? 'Creating account...' : 'Sign Up'}
+    {submitting ? 'Creating profile...' : 'Create Profile'}
   </button>
 </form>
 
