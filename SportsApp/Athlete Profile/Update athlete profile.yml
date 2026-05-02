@@ -4,7 +4,7 @@ info:
   seq: 24
 
 http:
-  method: PATCH
+  method: PUT
   url: http://localhost:9926/api/athleteProfiles/me
   body:
     type: json

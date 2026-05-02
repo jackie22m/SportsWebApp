@@ -17,6 +17,17 @@ async function joinGame(
   return gameParticipationRepository.save(participation);
 }
 
+// auto join
+async function autoJoinCreator(userId: string, gameId: string): Promise<gameParticipation> {
+  const participation = new gameParticipation();
+  participation.userId = userId;
+  participation.gameId = gameId;
+  participation.status = 'joined';
+  participation.role = 'organizer';
+
+  return gameParticipationRepository.save(participation);
+}
+
 async function leaveGame(userId: string, gameId: string): Promise<gameParticipation | null> {
   // Find the existing participation record
   const participation = await gameParticipationRepository.findOne({
@@ -80,4 +91,11 @@ async function updateParticipationStatus(
   return gameParticipationRepository.save(participation);
 }
 
-export { getGamesForUser, getPlayersInGame, joinGame, leaveGame, updateParticipationStatus };
+export {
+  autoJoinCreator,
+  getGamesForUser,
+  getPlayersInGame,
+  joinGame,
+  leaveGame,
+  updateParticipationStatus,
+};

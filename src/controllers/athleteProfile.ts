@@ -54,6 +54,7 @@ async function viewMyAthleteProfile(req: Request, res: Response): Promise<void> 
     res.status(401);
     return;
   }
+
   const athlete = await getAthleteProfileById(auth.userId);
 
   if (!athlete) {

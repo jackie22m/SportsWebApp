@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: http://localhost:9926/athleteProfiles
+  url: http://localhost:9926/api/athleteProfiles
   auth: inherit
 
 settings:

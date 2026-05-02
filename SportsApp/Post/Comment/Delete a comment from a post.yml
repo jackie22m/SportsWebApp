@@ -5,7 +5,7 @@ info:
 
 http:
   method: DELETE
-  url: http://localhost:9926/api/comments/019dd602-2e14-737f-a2ad-0c822b36b8db
+  url: http://localhost:9926/api/comments/019dd616-3e98-742d-9262-7a86e4687b5c
   auth: inherit
 
 settings:

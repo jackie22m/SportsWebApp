@@ -18,8 +18,22 @@
     updatedAt: string;
   }
 
+  interface PickupGame {
+    gameId: string;
+    sport: string;
+    title: string;
+    location: string;
+    date: string;
+    time: string;
+    maxPlayers: number;
+    skillLevelRequired: string;
+  }
+
   let posts: Post[] = $state([]);
   let loading = $state(true);
+
+  let games: PickupGame[] = $state([]);
+  let gamesLoading = $state(true);
 
   let hasProfile = $state(false);
   let profileLoading = $state(true);
@@ -46,6 +60,16 @@
     }
 
     loading = false;
+
+    const gamesResult = await api.get<PickupGame[]>('/pickupGames/me');
+
+    if (gamesResult.ok) {
+      games = gamesResult.data;
+    } else {
+      toast.error('Failed to load your pickup games');
+    }
+
+    gamesLoading = false;
   });
 </script>
 
@@ -60,12 +84,34 @@
 {:else}
   <section class="card">
     <a href="/athleteProfiles/me" role="button">View Profile</a>
-    <a href="/athleteProfiles/edit" role="button">Edit Profile</a>
+    <a href="/athleteProfiles/me/edit" role="button">Edit Profile</a>
+    <button onclick={() => goto('/logout')}>Log Out</button>
   </section>
 {/if}
 
 <a href="/pickupGames/create" role="button">Create A Pickup Game</a>
 <a href="/pickupGames/upcoming" role="button">View upcoming games</a>
+<h2>Your Pickup Games</h2>
+
+{#if gamesLoading}
+  <Loading />
+{:else if games.length === 0}
+  <p>You haven't created or joined any pickup games yet.</p>
+{:else}
+  <ul>
+    {#each games as game}
+      <li class="game-card">
+        <h3>{game.title}</h3>
+        <p><strong>Sport:</strong> {game.sport}</p>
+        <p><strong>Date:</strong> {game.date}</p>
+        <p><strong>Time:</strong> {game.time}</p>
+        <p><strong>Location:</strong> {game.location}</p>
+
+        <a href={`/pickupGames/${game.gameId}`} role="button"> View Details </a>
+      </li>
+    {/each}
+  </ul>
+{/if}
 
 {#if loading}
   <Loading />
@@ -87,3 +133,5 @@
     {/each}
   </ul>
 {/if}
+
+import {api} from '$lib/api';

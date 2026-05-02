@@ -31,7 +31,7 @@
   let location = $state('');
 
   onMount(async () => {
-    const result = await api.get<AthleteProfile>('/api/athleteProfiles/me');
+    const result = await api.get<AthleteProfile>('/athleteProfiles/me');
 
     if (!result.ok) {
       toast.error('Failed to load profile');
@@ -41,7 +41,6 @@
 
     profile = result.data;
 
-    // Past athlete profile
     bio = profile.bio;
     primarySport = profile.primarySport;
     secondarySport = profile.secondarySport ?? '';
@@ -52,13 +51,14 @@
     loading = false;
   });
 
-  async function saveProfile() {
+  async function handleSubmit(event: Event) {
+    event.preventDefault();
     saving = true;
 
-    const result = await api.put('/api/athleteProfiles/me', {
+    const result = await api.put('/athleteProfiles/me', {
       bio,
       primarySport,
-      secondarySport: secondarySport || null,
+      secondarySport: secondarySport || '',
       position,
       skillLevel,
       location,
@@ -71,7 +71,7 @@
       return;
     }
 
-    toast.success('Profile updated');
+    toast.success('Profile updated!');
     goto('/athleteProfiles/me');
   }
 </script>
@@ -81,7 +81,7 @@
 {#if loading}
   <Loading />
 {:else}
-  <form onsubmit={saveProfile}>
+  <form onsubmit={handleSubmit}>
     <label>
       Bio
       <textarea bind:value={bio} required></textarea>

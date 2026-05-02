@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { pickupGame } from '../entities/pickupGame.js';
+import { autoJoinCreator } from '../models/gameParticipation.js';
 import {
   addPickupGame,
   deletePickupGame,
@@ -31,6 +32,8 @@ async function createPickupGame(req: Request, res: Response): Promise<void> {
   try {
     const newPickupGame = await addPickupGame(auth.userId, result.data);
 
+    await autoJoinCreator(auth.userId, newPickupGame.gameId);
+
     res.status(201).json({
       message: 'Pickup game created successfully',
       pickupGame: newPickupGame,
@@ -52,6 +55,28 @@ async function getAPickupGame(req: Request, res: Response): Promise<void> {
   }
 
   res.status(200).json(game);
+}
+
+async function getMyGames(req: Request, res: Response): Promise<void> {
+  const auth = req.session.authenticatedUser;
+
+  if (!auth) {
+    res.status(403).json({ message: 'Not authenticated' });
+    return;
+  }
+
+  try {
+    const games = await getPickupGameById(auth.userId);
+
+    res.status(200).json({
+      message: 'Games retrieved successfully',
+      games,
+    });
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+  }
 }
 
 async function getUpcomingGames(req: Request, res: Response): Promise<void> {

@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: http://localhost:9926/pickupGames/019db146-3c85-727e-a3c7-581b1f0a2426
+  url: http://localhost:9926/api/pickupGames/019de6c4-eae2-7213-9b42-af7781c8f5df
   auth: inherit
 
 settings:

@@ -5,18 +5,18 @@ info:
 
 http:
   method: POST
-  url: http://localhost:9926/pickupGames
+  url: http://localhost:9926/api/pickupGames/create
   body:
     type: json
     data: |
       {
-        "sport": "Tennis",
-        "title": "Tennis!!!",
-        "description": "Bring ur rackets",
+        "sport": "Soccer",
+        "title": "Soccer!!!",
+        "description": "Bring ur cleats",
         "location": "Jonesboro, AR",
         "date": "2026-04-25",
         "time": "12:00",
-        "maxPlayers": 6,
+        "maxPlayers": 22,
         "skillLevelRequired": "Advanced"
       }
   auth: inherit

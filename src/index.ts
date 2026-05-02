@@ -20,6 +20,7 @@ import {
 import {
   cancelPickupGame,
   createPickupGame,
+  getAllPickupGamesController,
   getAPickupGame,
   getPickGamesBySport,
   getPickupGamesByDate,
@@ -113,8 +114,8 @@ app.delete('/api/athleteProfiles/:userId', deleteAthleteProfile);
 app.get('/api/athleteProfiles', getAllAthleteProfiles);
 
 // PICKUP GAMES
-app.post('/api/pickupGames/create', createPickupGame); // creating a pickup game
-//app.get('/pickupGames', getAllPickupGamesController); // get all pickup games
+app.post('/api/pickupGames', createPickupGame); // creating a pickup game
+app.get('/api/pickupGames', getAllPickupGamesController); // get all pickup games
 app.get('/api/pickupGames/:gameId', getAPickupGame); // get a pickup game
 app.get('/api/pickupGames/upcoming', getUpcomingGames); // get upcoming games
 // FILTERS
@@ -130,7 +131,7 @@ app.delete('/api/pickupGames/:gameId', cancelPickupGame); // cancel pickup game
 app.post('/api/pickupGames/join/:gameId', joinAGame); // join a pickup game
 app.delete('/api/pickupGames/leave/:gameId', leavePickupGame); // leave a pickup game
 app.get('/api/pickupGames/players/:gameId', playersInGame); // get players in a game
-app.get('/api/users/me/games/', getMyGames); // get games a user is in
+app.get('/api/pickupGames/me', getMyGames); // get games a user is in
 app.patch('/api/pickUpGames/:gameId/players/:userId', updatePlayerGameStatus);
 
 //Posts

@@ -5,8 +5,8 @@ export const CreatePickupGameSchema = z.object({
   title: z.string().min(2).max(100),
   description: z.string().min(2).max(300),
   location: z.string().min(2).max(300),
-  date: z.string().date(),
-  time: z.string().time(),
+  date: z.iso.date(),
+  time: z.iso.time(),
   maxPlayers: z.number().min(1).max(100),
   skillLevelRequired: z.enum(['Beginner', 'Intermediate', 'Advanced', 'Professional']),
 });

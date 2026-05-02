@@ -5,7 +5,7 @@ info:
 
 http:
   method: DELETE
-  url: http://localhost:9926/sessions
+  url: http://localhost:9926/api/sessions
   body:
     type: json
     data: |-
