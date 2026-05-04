@@ -27,10 +27,6 @@ async function getPickupGameById(gameId: string): Promise<pickupGame | null> {
   return pickupGameRepository.findOne({ where: { gameId } });
 }
 
-async function getPickupGamesById(gameId: string): Promise<pickupGame[] | null> {
-  return pickupGameRepository.find({ where: { gameId } });
-}
-
 async function listUpcomingGames(): Promise<pickupGame[]> {
   return pickupGameRepository
     .createQueryBuilder('game')
@@ -120,7 +116,6 @@ export {
   getGamesBySport,
   getGamesByTime,
   getPickupGameById,
-  getPickupGamesById,
   listUpcomingGames,
   updateGame,
 };

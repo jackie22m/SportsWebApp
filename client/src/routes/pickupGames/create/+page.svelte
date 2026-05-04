@@ -92,4 +92,6 @@
   <button type="submit" disabled={submitting}>
     {submitting ? 'Creating pickup game...' : 'Pickup Game'}
   </button>
+
+  <button type="button" class="secondary" onclick={() => goto('/dashboard')}> Cancel </button>
 </form>

@@ -1,7 +1,7 @@
 info:
   name: Update game participation status
   type: http
-  seq: 49
+  seq: 15
 
 http:
   method: PATCH

@@ -11,7 +11,6 @@ import {
   viewMyAthleteProfile,
 } from './controllers/athleteProfile.js';
 import {
-  getMyGames,
   joinAGame,
   leavePickupGame,
   playersInGame,
@@ -22,6 +21,7 @@ import {
   createPickupGame,
   getAllPickupGamesController,
   getAPickupGame,
+  getMyGames,
   getPickGamesBySport,
   getPickupGamesByDate,
   getPickupGamesByLocation,
@@ -115,9 +115,11 @@ app.get('/api/athleteProfiles', getAllAthleteProfiles);
 
 // PICKUP GAMES
 app.post('/api/pickupGames', createPickupGame); // creating a pickup game
+app.get('/api/pickupGames/me', getMyGames); // get my games
+app.get('/api/pickupGames/upcoming', getUpcomingGames); // get upcoming games
 app.get('/api/pickupGames', getAllPickupGamesController); // get all pickup games
 app.get('/api/pickupGames/:gameId', getAPickupGame); // get a pickup game
-app.get('/api/pickupGames/upcoming', getUpcomingGames); // get upcoming games
+
 // FILTERS
 app.get('/api/pickupGames', getPickGamesBySport); // get pickup games by sport
 app.get('/api/pickupGames', getPickupGamesByLocation); // get pickup games by location
@@ -131,7 +133,6 @@ app.delete('/api/pickupGames/:gameId', cancelPickupGame); // cancel pickup game
 app.post('/api/pickupGames/join/:gameId', joinAGame); // join a pickup game
 app.delete('/api/pickupGames/leave/:gameId', leavePickupGame); // leave a pickup game
 app.get('/api/pickupGames/players/:gameId', playersInGame); // get players in a game
-app.get('/api/pickupGames/me', getMyGames); // get games a user is in
 app.patch('/api/pickUpGames/:gameId/players/:userId', updatePlayerGameStatus);
 
 //Posts

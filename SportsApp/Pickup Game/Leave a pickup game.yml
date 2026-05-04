@@ -1,7 +1,7 @@
 info:
   name: Leave a pickup game
   type: http
-  seq: 11
+  seq: 10
 
 http:
   method: DELETE

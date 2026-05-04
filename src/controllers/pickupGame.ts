@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { pickupGame } from '../entities/pickupGame.js';
-import { autoJoinCreator } from '../models/gameParticipation.js';
+import { autoJoinCreator, getPickupGamesByUserId } from '../models/gameParticipation.js';
 import {
   addPickupGame,
   deletePickupGame,
@@ -20,6 +20,7 @@ async function getAllPickupGamesController(req: Request, res: Response): Promise
   const pickupGames = await getAllPickupGames();
   res.json({ pickupGames });
 }
+
 async function createPickupGame(req: Request, res: Response): Promise<void> {
   const auth = req.session.authenticatedUser;
 
@@ -66,10 +67,9 @@ async function getMyGames(req: Request, res: Response): Promise<void> {
   }
 
   try {
-    const games = await getPickupGameById(auth.userId);
+    const games = await getPickupGamesByUserId(auth.userId);
 
     res.status(200).json({
-      message: 'Games retrieved successfully',
       games,
     });
   } catch (err) {
@@ -251,6 +251,7 @@ export {
   createPickupGame,
   getAllPickupGamesController,
   getAPickupGame,
+  getMyGames,
   getPickGamesBySport,
   getPickupGamesByDate,
   getPickupGamesByLocation,

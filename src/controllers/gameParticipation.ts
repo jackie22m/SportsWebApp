@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
 import {
-  getGamesForUser,
   getPlayersInGame,
   joinGame,
   leaveGame,
@@ -107,28 +106,6 @@ async function playersInGame(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function getMyGames(req: Request, res: Response): Promise<void> {
-  const auth = req.session.authenticatedUser;
-
-  if (!auth) {
-    res.status(403).json({ message: 'Not authenticated' });
-    return;
-  }
-
-  try {
-    const games = await getGamesForUser(auth.userId);
-
-    res.status(200).json({
-      message: 'Games retrieved successfully',
-      games,
-    });
-  } catch (err) {
-    console.error(err);
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.status(500).json(databaseErrorMessage);
-  }
-}
-
 async function updatePlayerGameStatus(req: Request, res: Response): Promise<void> {
   const auth = req.session.authenticatedUser;
 
@@ -173,4 +150,4 @@ async function updatePlayerGameStatus(req: Request, res: Response): Promise<void
   }
 }
 
-export { getMyGames, joinAGame, leavePickupGame, playersInGame, updatePlayerGameStatus };
+export { joinAGame, leavePickupGame, playersInGame, updatePlayerGameStatus };

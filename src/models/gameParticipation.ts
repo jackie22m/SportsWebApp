@@ -1,5 +1,6 @@
 import { AppDataSource } from '../dataSource.js';
 import { gameParticipation } from '../entities/gameParticipation.js';
+import { pickupGame } from '../entities/pickupGame.js';
 import { CreateGameParticipationBody } from '../validators/gameParticipation.js';
 const gameParticipationRepository = AppDataSource.getRepository(gameParticipation);
 
@@ -61,18 +62,15 @@ async function getPlayersInGame(gameId: string): Promise<gameParticipation[]> {
     .getMany();
 }
 
-async function getGamesForUser(userId: string): Promise<gameParticipation[]> {
-  return gameParticipationRepository
+async function getPickupGamesByUserId(userId: string): Promise<pickupGame[]> {
+  const participations = await gameParticipationRepository
     .createQueryBuilder('gp')
     .leftJoinAndSelect('gp.game', 'game')
     .where('gp.userId = :userId', { userId })
     .andWhere('gp.status = :status', { status: 'joined' })
-    .select([
-      'gp.participationId',
-      'gp.status',
-      'game', // loads the entire pickupGame entity
-    ])
     .getMany();
+
+  return participations.map((p) => p.game);
 }
 
 async function updateParticipationStatus(
@@ -93,7 +91,7 @@ async function updateParticipationStatus(
 
 export {
   autoJoinCreator,
-  getGamesForUser,
+  getPickupGamesByUserId,
   getPlayersInGame,
   joinGame,
   leaveGame,

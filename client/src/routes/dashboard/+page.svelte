@@ -26,11 +26,11 @@
     date: string;
     time: string;
     maxPlayers: number;
-    skillLevelRequired: string;
+    skillLevelRequired: 'Beginner' | 'Intermediate' | 'Advanced' | 'Professional';
   }
 
   let posts: Post[] = $state([]);
-  let loading = $state(true);
+  let postLoading = $state(true);
 
   let games: PickupGame[] = $state([]);
   let gamesLoading = $state(true);
@@ -44,22 +44,7 @@
     hasProfile = profileResult.ok;
     profileLoading = false;
 
-    // Load posts
-    const result = await api.get<Post[]>('/posts');
-
-    if (result.status === 401) {
-      toast.error('Please log in to continue');
-      goto('/login');
-      return;
-    }
-
-    if (result.ok) {
-      posts = result.data;
-    } else {
-      toast.error('Failed to load posts');
-    }
-
-    loading = false;
+    // Pickup games user is in
 
     const gamesResult = await api.get<PickupGame[]>('/pickupGames/me');
 
@@ -68,8 +53,23 @@
     } else {
       toast.error('Failed to load your pickup games');
     }
-
     gamesLoading = false;
+
+    // Load posts
+    const postResult = await api.get<Post[]>('/posts');
+
+    if (postResult.status === 401) {
+      toast.error('Please log in to continue');
+      goto('/login');
+      return;
+    }
+
+    if (postResult.ok) {
+      posts = postResult.data;
+    } else {
+      toast.error('Failed to load posts');
+    }
+    postLoading = false;
   });
 </script>
 
@@ -85,16 +85,15 @@
   <section class="card">
     <a href="/athleteProfiles/me" role="button">View Profile</a>
     <a href="/athleteProfiles/me/edit" role="button">Edit Profile</a>
-    <button onclick={() => goto('/logout')}>Log Out</button>
   </section>
 {/if}
 
 <a href="/pickupGames/create" role="button">Create A Pickup Game</a>
-<a href="/pickupGames/upcoming" role="button">View upcoming games</a>
+<a href="/pickupGames" role="button">View upcoming games</a>
 <h2>Your Pickup Games</h2>
 
 {#if gamesLoading}
-  <Loading />
+  <p>Loading your pickup games…</p>
 {:else if games.length === 0}
   <p>You haven't created or joined any pickup games yet.</p>
 {:else}
@@ -106,14 +105,15 @@
         <p><strong>Date:</strong> {game.date}</p>
         <p><strong>Time:</strong> {game.time}</p>
         <p><strong>Location:</strong> {game.location}</p>
-
+        <p><strong>Max Players:</strong> {game.maxPlayers}</p>
+        <p><strong>Skill Level:</strong> {game.skillLevelRequired}</p>
         <a href={`/pickupGames/${game.gameId}`} role="button"> View Details </a>
       </li>
     {/each}
   </ul>
 {/if}
 
-{#if loading}
+{#if postLoading}
   <Loading />
 {:else if posts.length === 0}
   <p>No posts yet.</p>
@@ -134,4 +134,4 @@
   </ul>
 {/if}
 
-import {api} from '$lib/api';
+<button type="button" class="secondary" onclick={() => goto('/logout')}>Log Out</button>
