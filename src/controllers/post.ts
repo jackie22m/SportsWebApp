@@ -6,6 +6,7 @@ import {
   filterPostsBySportTag,
   filterPostsByTopic,
   getPostById,
+  getPostsByUserId,
   listFeed,
   updatePost,
 } from '../models/post.js';
@@ -30,6 +31,24 @@ async function createPost(req: Request, res: Response): Promise<void> {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
+  }
+}
+async function getMyPosts(req: Request, res: Response): Promise<void> {
+  const auth = req.session.authenticatedUser;
+
+  if (!auth) {
+    res.status(403).json({ message: 'Not authenticated' });
+    return;
+  }
+
+  try {
+    const posts = await getPostsByUserId(auth.userId);
+    res.status(200).json(posts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: 'Failed to fetch posts',
+    });
   }
 }
 
@@ -167,6 +186,7 @@ export {
   deleteAPost,
   getAPost,
   getFeed,
+  getMyPosts,
   getPostsBySportsTag,
   getPostsByTopic,
   updateAPost,

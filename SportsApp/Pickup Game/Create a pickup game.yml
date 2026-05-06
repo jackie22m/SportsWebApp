@@ -10,16 +10,19 @@ http:
     type: json
     data: |+
       {
-        "sport": "Soccer",
-        "title": "Soccer Scrimmage!!!",
-        "description": "Bring an extra ball",
-        "location": "Jonesboro, AR",
-        "date": "2026-04-25",
-        "time": "01:00",
+        "sport": "Hockey",
+        "title": "Hockey Tourney",
+        "description": "Hockey tournament for all skill levels.",
+        "location": "Manhattan, NY",
+        "date": "2026-06-01",
+        "time": "03:00",
         
-        "maxPlayers": 22,
-        "skillLevelRequired": "Advanced"
+        "maxPlayers": 25,
+        "skillLevelRequired": "Beginner"
+        
+        
       }
+
 
 
 

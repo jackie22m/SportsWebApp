@@ -36,6 +36,7 @@ async function getAllUsersController(req: Request, res: Response): Promise<void>
   const users = await getAllUsers();
   res.json({ users: users.map(toPublicUser) });
 }
+
 async function logIn(req: Request, res: Response): Promise<void> {
   const result = LoginSchema.safeParse(req.body);
   if (!result.success) {
@@ -192,5 +193,6 @@ export {
   getUser,
   logIn,
   logOut,
+  toPublicUser,
   updateUser,
 };

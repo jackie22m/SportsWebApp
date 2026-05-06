@@ -10,10 +10,11 @@ http:
     type: json
     data: |-
       {
+        "gameId": "019de6a5-2ccb-70eb-af3d-389cfe42d693",
         "type": "Media",
         "text": null,
         "mediaUrl": "https://example.com/highlight.jpg",
-        "sportsTag": "Soccer",
+        "sportsTag": "Basketball",
         "topic": "Highlights",
         "visibility": "Public"
       }

@@ -5,10 +5,10 @@ info:
 
 http:
   method: POST
-  url: http://localhost:9926/pickupGames/join/019db2be-6eda-76ed-8973-c4083593e058
+  url: http://localhost:9926/api/pickupGames/join/019de6a5-2ccb-70eb-af3d-389cfe42d693
   body:
     type: json
-    data: |-
+    data: |
       {
         "status":"joined"
       }

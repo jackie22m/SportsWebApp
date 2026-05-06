@@ -47,6 +47,7 @@ import {
   deleteAPost,
   getAPost,
   getFeed,
+  getMyPosts,
   getPostsBySportsTag,
   getPostsByTopic,
   updateAPost,
@@ -137,6 +138,7 @@ app.patch('/api/pickUpGames/:gameId/players/:userId', updatePlayerGameStatus);
 
 //Posts
 app.post('/api/posts', createPost);
+app.get('/api/posts/me', getMyPosts); // gets my posts
 app.get('/api/posts/:postId', getAPost);
 app.get('/api/posts', getFeed); // needs to remove user information
 app.get('/api/posts', getPostsBySportsTag); // doesn't work

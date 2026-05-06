@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const CreatePostSchema = z.object({
+  gameId: z.string().nullable().optional(),
   type: z.enum(['Text', 'Media', 'Discussion', 'Highlight']),
   text: z.string().nullable().optional(),
   mediaUrl: z.string().nullable().optional(),
@@ -10,6 +11,7 @@ export const CreatePostSchema = z.object({
 });
 
 export const UpdatePostSchema = z.object({
+  gameId: z.string().nullable().optional(),
   type: z.enum(['Text', 'Media', 'Discussion', 'Highlight']).optional(),
   text: z.string().nullable().optional(),
   mediaUrl: z.string().nullable().optional(),

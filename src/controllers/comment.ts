@@ -28,7 +28,7 @@ async function createComment(req: Request, res: Response): Promise<void> {
 
   try {
     const newComment = await addComment(String(postId), auth.userId, result.data);
-    res.status(201).json({ text: newComment.text, commentId: newComment.commentId }); // delete the comment ID after test
+    res.status(201).json(newComment);
   } catch (err) {
     console.error(err);
     res.status(500).json(parseDatabaseError(err));

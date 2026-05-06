@@ -74,6 +74,8 @@
 </script>
 
 <h1><strong>Dashboard</strong></h1>
+<a href="/messages" role="button">Messages</a>
+
 {#if profileLoading}
   <p>Loading your athlete profile…</p>
 {:else if !hasProfile}
@@ -90,8 +92,8 @@
 
 <a href="/pickupGames/create" role="button">Create A Pickup Game</a>
 <a href="/pickupGames" role="button">View upcoming games</a>
-<h2>Your Pickup Games</h2>
 
+<h2>Your Pickup Games</h2>
 {#if gamesLoading}
   <p>Loading your pickup games…</p>
 {:else if games.length === 0}
@@ -112,6 +114,9 @@
     {/each}
   </ul>
 {/if}
+
+<a href="/posts" role="button">View all posts</a>
+<a href="/posts/create" role="button">Share a Post</a>
 
 {#if postLoading}
   <Loading />

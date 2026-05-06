@@ -8,7 +8,7 @@ async function addPost(userId: string, data: CreatePostBody): Promise<Post> {
   const post = new Post();
 
   post.userId = userId;
-
+  post.gameId = data.gameId ?? null;
   post.type = data.type;
   post.text = data.text ?? null;
   post.mediaUrl = data.mediaUrl ?? null;
@@ -20,34 +20,70 @@ async function addPost(userId: string, data: CreatePostBody): Promise<Post> {
 }
 
 async function getPostById(postId: string): Promise<Post | null> {
-  return postRepository.findOne({ where: { postId } });
+  return postRepository
+    .createQueryBuilder('post')
+    .where('post.postId = :postId', { postId })
+    .leftJoinAndSelect('post.user', 'user')
+    .leftJoinAndSelect('post.game', 'game')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .leftJoinAndSelect('comments.user', 'commentUser')
+    .leftJoinAndSelect('post.reactions', 'reactions')
+    .leftJoinAndSelect('reactions.user', 'reactionUser')
+    .getOne();
+}
+
+async function getPostsByUserId(userId: string): Promise<Post[] | null> {
+  return postRepository
+    .createQueryBuilder('post')
+    .where('post.userId = :userId', { userId })
+    .leftJoinAndSelect('post.game', 'game')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .leftJoinAndSelect('comments.user', 'commentUser')
+    .leftJoinAndSelect('post.reactions', 'reactions')
+    .leftJoinAndSelect('reactions.user', 'reactionUser')
+    .getMany();
 }
 
 async function listFeed(): Promise<Post[]> {
   return postRepository
     .createQueryBuilder('post')
-    .leftJoinAndSelect('post.user', 'user')
+    .leftJoin('post.user', 'user')
+    .addSelect(['user.name'])
     .leftJoinAndSelect('post.game', 'game')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .leftJoinAndSelect('comments.user', 'commentUser')
+    .addSelect(['commentUser.userId', 'commentUser.name'])
+    .leftJoinAndSelect('post.reactions', 'reactions')
+    .leftJoinAndSelect('reactions.user', 'reactionUser')
+    .addSelect(['reactionUser.userId', 'reactionUser.name'])
     .orderBy('post.createdAt', 'DESC')
     .getMany();
 }
 
 async function filterPostsBySportTag(sportsTag: string): Promise<Post[]> {
   return postRepository
-    .createQueryBuilder('posts')
+    .createQueryBuilder('post')
     .where(`LOWER(post.sportsTag) = LOWER(:sportsTag)`, { sportsTag })
     .leftJoinAndSelect('post.user', 'user')
     .leftJoinAndSelect('post.game', 'game')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .leftJoinAndSelect('comments.user', 'commentUser')
+    .leftJoinAndSelect('post.reactions', 'reactions')
+    .leftJoinAndSelect('reactions.user', 'reactionUser')
     .orderBy('post.createdAt', 'DESC')
     .getMany();
 }
 
 async function filterPostsByTopic(topic: string): Promise<Post[]> {
   return postRepository
-    .createQueryBuilder('posts')
+    .createQueryBuilder('post')
     .where(`LOWER(post.topic) = LOWER(:topic)`, { topic })
     .leftJoinAndSelect('post.user', 'user')
     .leftJoinAndSelect('post.game', 'game')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .leftJoinAndSelect('comments.user', 'commentUser')
+    .leftJoinAndSelect('post.reactions', 'reactions')
+    .leftJoinAndSelect('reactions.user', 'reactionUser')
     .orderBy('post.createdAt', 'DESC')
     .getMany();
 }
@@ -73,6 +109,7 @@ export {
   filterPostsBySportTag,
   filterPostsByTopic,
   getPostById,
+  getPostsByUserId,
   listFeed,
   updatePost,
 };

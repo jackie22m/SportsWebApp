@@ -31,10 +31,10 @@ export class Reaction {
 
   @Column({
     type: 'enum',
-    enum: ['like', 'love', 'laugh', 'angry'],
+    enum: ['like', 'love', 'clap', 'fire'],
     default: 'like',
   })
-  reactionType: 'like' | 'love' | 'laugh' | 'angry';
+  reactionType: 'like' | 'love' | 'clap' | 'fire';
 
   @CreateDateColumn()
   dateReacted: Date;

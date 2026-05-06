@@ -18,6 +18,40 @@
     updatedAt: string;
   }
 
+  interface Post {
+    postId: string;
+    text: string | null;
+    type: 'Text' | 'Media' | 'Discussion' | 'Highlight';
+    sportsTag: string | null;
+    topic: string | null;
+    mediaUrl: string | null;
+    createdAt: string;
+  }
+
+  let posts: Post[] = $state([]);
+
+  onMount(async () => {
+    const profileResult = await api.get<AthleteProfile>('/athleteProfiles/me');
+
+    if (profileResult.status === 401) {
+      toast.error('Please log in to continue');
+      goto('/login');
+      return;
+    }
+
+    if (profileResult.ok) {
+      profile = profileResult.data;
+    }
+
+    // Fetch posts
+    const postResult = await api.get<Post[]>('/posts/me');
+    if (postResult.ok) {
+      posts = postResult.data;
+    }
+
+    loading = false;
+  });
+
   let profile: AthleteProfile | null = $state(null);
   let loading = $state(true);
 
@@ -72,12 +106,51 @@
   </section>
 {/if}
 
+<section class="card" style="margin-top: 2rem;">
+  <h2>Your Posts</h2>
+
+  {#if posts.length === 0}
+    <p>You haven’t created any posts yet.</p>
+  {:else}
+    {#each posts as post}
+      <div class="post">
+        <p><strong>Type:</strong> {post.type}</p>
+
+        {#if post.text}
+          <p>{post.text}</p>
+        {/if}
+
+        {#if post.mediaUrl}
+          <img src={post.mediaUrl} alt="Post media" style="max-width: 100%; margin-top: 0.5rem;" />
+        {/if}
+
+        {#if post.sportsTag}
+          <p><strong>Sport:</strong> {post.sportsTag}</p>
+        {/if}
+
+        {#if post.topic}
+          <p><strong>Topic:</strong> {post.topic}</p>
+        {/if}
+
+        <small>Posted: {new Date(post.createdAt).toLocaleString()}</small>
+        <a href={`/posts/${post.postId}/edit`} role="button"> Edit post </a>
+
+        <hr />
+      </div>
+    {/each}
+  {/if}
+</section>
+
 <style>
   .card {
     border: 1px solid #ddd;
     padding: 1rem;
     margin-top: 1rem;
     border-radius: 8px;
+  }
+
+  .post {
+    margin-bottom: 1rem;
   }
 
   .actions {
