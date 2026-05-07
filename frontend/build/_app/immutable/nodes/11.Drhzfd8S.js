@@ -1,0 +1,1 @@
+import{c as r,l as s}from"../chunks/CcRWuxIL.js";import"../chunks/C3vN4Dk0.js";import{p as t,a as p,F as c}from"../chunks/yi7AiwFZ.js";a[c]="src/routes/messages/[convoId]/+page.svelte";function a(n,e){r(new.target),t(e,!1,a);var o={...s()};return p(o)}export{a as component};
