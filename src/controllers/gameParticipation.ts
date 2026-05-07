@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import {
+  findExistingParticipation,
   getPlayersInGame,
   joinGame,
   leaveGame,
@@ -35,6 +36,13 @@ async function joinAGame(req: Request, res: Response): Promise<void> {
     const game = await getPickupGameById(String(gameId));
     if (!game) {
       res.status(404).json({ message: 'Game not found' });
+      return;
+    }
+
+    const existing = await findExistingParticipation(auth.userId, String(gameId));
+
+    if (existing) {
+      res.status(400).json({ message: 'You already joined this game' });
       return;
     }
 

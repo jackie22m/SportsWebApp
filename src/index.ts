@@ -67,6 +67,8 @@ import {
   updateAReaction,
 } from './controllers/reaction.js';
 
+import { getAllConvos } from './controllers/message.js';
+
 import { followAUser, unfollowAUser } from './controllers/follow.js';
 
 import { getMyFollowers, getUsersIFollow } from './controllers/follow.js';
@@ -167,6 +169,7 @@ app.get('/api/users/:userId/followers', getMyFollowers);
 // Messages NEEDS TESTING
 app.post('/api/messages', sendAMessage);
 app.get('/api/messages/conversation/:otherUserId', getAConversation);
+app.get('/api/messages', getAllConvos);
 
 // Notifications NEED TESTING
 app.get('/api/notifications', getAllNotifications);

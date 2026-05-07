@@ -34,7 +34,7 @@
 <h1>Sports!</h1>
 
 <article>
-  <header><strong>Log in for Sports!</strong></header>
+  <header><strong>Log in</strong></header>
   <form onsubmit={handleSubmit}>
     <label>
       Email

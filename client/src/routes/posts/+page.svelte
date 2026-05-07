@@ -7,7 +7,7 @@
 
   interface User {
     userId: string;
-    username: string;
+    name: string;
     email: string;
   }
 
@@ -57,7 +57,7 @@
     updatedAt: string;
     user?: {
       userId: string;
-      username?: string;
+      name?: string;
     };
   }
 
@@ -70,7 +70,7 @@
 
     user?: {
       userId: string;
-      username?: string;
+      name?: string;
     };
   }
 
@@ -89,6 +89,7 @@
   });
 </script>
 
+<h1>SPORTS</h1>
 <button type="button" class="secondary" onclick={() => goto('/dashboard/')}> Go back </button>
 {#if loading}
   <Loading />
@@ -97,26 +98,36 @@
 {:else}
   <ul>
     {#each posts as post}
-      <li class="post">
+      <div class="post">
         <h3>{post.type}</h3>
+
         {#if post.text}
           <p>{post.text}</p>
         {/if}
+
         {#if post.gameId}
           <p>{post.gameId}</p>
         {/if}
+
         {#if post.mediaUrl}
           <img src={post.mediaUrl} alt="Post media" />
         {/if}
+
         {#if post.sportsTag}
           <p>{post.sportsTag}</p>
         {/if}
+
         {#if post.topic}
           <p>{post.topic}</p>
         {/if}
+
         <small>Posted on {new Date(post.createdAt).toLocaleString()}</small>
-        <a href={`/posts/${post.postId}`} role="button"> View Details </a>
-      </li>
+        <p><strong>Posted by:</strong> {post.user?.name}</p>
+
+        <a href={`/athleteProfiles/${post.userId}`} role="button"> View Athlete </a>
+
+        <a href={`/posts/${post.postId}`} role="button">View Details</a>
+      </div>
     {/each}
   </ul>
 {/if}

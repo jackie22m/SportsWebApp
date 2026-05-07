@@ -18,22 +18,8 @@
     updatedAt: string;
   }
 
-  interface PickupGame {
-    gameId: string;
-    sport: string;
-    title: string;
-    location: string;
-    date: string;
-    time: string;
-    maxPlayers: number;
-    skillLevelRequired: 'Beginner' | 'Intermediate' | 'Advanced' | 'Professional';
-  }
-
   let posts: Post[] = $state([]);
   let postLoading = $state(true);
-
-  let games: PickupGame[] = $state([]);
-  let gamesLoading = $state(true);
 
   let hasProfile = $state(false);
   let profileLoading = $state(true);
@@ -43,17 +29,6 @@
     const profileResult = await api.get('/athleteProfiles/me');
     hasProfile = profileResult.ok;
     profileLoading = false;
-
-    // Pickup games user is in
-
-    const gamesResult = await api.get<PickupGame[]>('/pickupGames/me');
-
-    if (gamesResult.ok) {
-      games = gamesResult.data;
-    } else {
-      toast.error('Failed to load your pickup games');
-    }
-    gamesLoading = false;
 
     // Load posts
     const postResult = await api.get<Post[]>('/posts');
@@ -73,8 +48,14 @@
   });
 </script>
 
-<h1><strong>Dashboard</strong></h1>
-<a href="/messages" role="button">Messages</a>
+<h1 style="text-align: center;">DASHBOARD</h1>
+<section class="quick-actions">
+  <a href="/messages" role="button">Messages</a>
+  <a href="/pickupGames/create" role="button">Create Pickup Game</a>
+  <a href="/pickupGames" role="button">Upcoming Games</a>
+  <a href="/posts/create" role="button">Share a Post</a>
+  <a href="/posts" role="button">All Posts</a>
+</section>
 
 {#if profileLoading}
   <p>Loading your athlete profile…</p>
@@ -90,34 +71,7 @@
   </section>
 {/if}
 
-<a href="/pickupGames/create" role="button">Create A Pickup Game</a>
-<a href="/pickupGames" role="button">View upcoming games</a>
-
-<h2>Your Pickup Games</h2>
-{#if gamesLoading}
-  <p>Loading your pickup games…</p>
-{:else if games.length === 0}
-  <p>You haven't created or joined any pickup games yet.</p>
-{:else}
-  <ul>
-    {#each games as game}
-      <li class="game-card">
-        <h3>{game.title}</h3>
-        <p><strong>Sport:</strong> {game.sport}</p>
-        <p><strong>Date:</strong> {game.date}</p>
-        <p><strong>Time:</strong> {game.time}</p>
-        <p><strong>Location:</strong> {game.location}</p>
-        <p><strong>Max Players:</strong> {game.maxPlayers}</p>
-        <p><strong>Skill Level:</strong> {game.skillLevelRequired}</p>
-        <a href={`/pickupGames/${game.gameId}`} role="button"> View Details </a>
-      </li>
-    {/each}
-  </ul>
-{/if}
-
-<a href="/posts" role="button">View all posts</a>
-<a href="/posts/create" role="button">Share a Post</a>
-
+<h2 style="text-align: center;">FEED</h2>
 {#if postLoading}
   <Loading />
 {:else if posts.length === 0}
@@ -125,7 +79,7 @@
 {:else}
   <ul>
     {#each posts as post}
-      <li>
+      <div>
         <h3>{post.type}</h3>
         {#if post.text}
           <p>{post.text}</p>
@@ -134,9 +88,16 @@
           <img src={post.mediaUrl} alt="Post media" />
         {/if}
         <small>Posted on {new Date(post.createdAt).toLocaleString()}</small>
-      </li>
+        <hr />
+      </div>
     {/each}
   </ul>
 {/if}
 
 <button type="button" class="secondary" onclick={() => goto('/logout')}>Log Out</button>
+
+<style>
+  h1 {
+    color: red;
+  }
+</style>

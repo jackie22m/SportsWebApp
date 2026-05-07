@@ -7,11 +7,13 @@ import {
   ManyToOne,
   PrimaryColumn,
   Relation,
+  Unique,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 import { pickupGame } from './pickupGame.js';
 import { User } from './User.js';
 
+@Unique(['userId', 'gameId'])
 @Entity({ name: 'gameParticipation' })
 export class gameParticipation {
   @PrimaryColumn()

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { api } from '$lib/api';
+  import Modal from '$lib/components/Modal.svelte';
   import { toast } from '$lib/toast.svelte';
   import { onMount } from 'svelte';
 
@@ -28,6 +29,25 @@
     }
     loading = false;
   });
+
+  let gameToJoin: PickupGame | null = $state(null);
+  let showConfirm = $state(false);
+
+  async function joinGame(): Promise<void> {
+    const result = await api.post(`/pickupGames/join/${gameToJoin?.gameId}`, {
+      status: 'joined',
+      role: 'player',
+    });
+
+    if (result.ok) {
+      toast.success('Joined game!');
+      goto(`/pickupGames/${gameToJoin?.gameId}`);
+    } else {
+      toast.error('Failed to join game');
+    }
+
+    showConfirm = false;
+  }
 </script>
 
 <button type="button" class="secondary" onclick={() => goto('/dashboard/')}> Go back </button>
@@ -38,7 +58,7 @@
 {:else}
   <ul>
     {#each games as game}
-      <li class="card">
+      <div class="card">
         <h3>{game.title}</h3>
         <p><strong>Sport:</strong> {game.sport}</p>
         <p><strong>Date:</strong> {game.date}</p>
@@ -47,8 +67,13 @@
         <p><strong>Max Players:</strong> {game.maxPlayers}</p>
         <p><strong>Skill Level:</strong> {game.skillLevelRequired}</p>
         <a href={`/pickupGames/${game.gameId}`} role="button"> View Details </a>
-      </li>
+        <button onclick={() => ((gameToJoin = game), (showConfirm = true))}>Join Game</button>
+      </div>
     {/each}
+    <Modal title="Join this game?" bind:open={showConfirm}>
+      <button class="secondary" onclick={() => (showConfirm = false)}>Cancel</button>
+      <button onclick={joinGame}>Join</button>
+    </Modal>
   </ul>
 {/if}
 

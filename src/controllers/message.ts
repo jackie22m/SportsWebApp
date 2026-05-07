@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getConversation, sendMessage } from '../models/message.js';
+import { getAllConversations, getConversation, sendMessage } from '../models/message.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { CreateMessageSchema } from '../validators/message.js';
 
@@ -21,7 +21,7 @@ async function sendAMessage(req: Request, res: Response): Promise<void> {
 
   try {
     const messageSent = await sendMessage(senderId, receiverId, text);
-    res.status(201).json({ message: 'Message sent', messageSent });
+    res.status(201).json(messageSent);
   } catch (err) {
     console.error(err);
     res.status(500).json(parseDatabaseError(err));
@@ -46,4 +46,21 @@ async function getAConversation(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { getAConversation, sendAMessage };
+async function getAllConvos(req: Request, res: Response): Promise<void> {
+  const auth = req.session.authenticatedUser;
+
+  if (!auth) {
+    res.status(403).json({ message: 'Not authenticated' });
+    return;
+  }
+
+  try {
+    const messages = await getAllConversations(auth.userId);
+    res.status(200).json(messages);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(parseDatabaseError(err));
+  }
+}
+
+export { getAConversation, getAllConvos, sendAMessage };

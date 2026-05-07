@@ -51,4 +51,6 @@
   <p><strong>Position:</strong> {profile.position}</p>
   <p><strong>Skill Level:</strong> {profile.skillLevel}</p>
   <p><strong>Location:</strong> {profile.location}</p>
+
+  <a role="button" href="/messages/{[profile.userId]}">Message</a>
 {/if}

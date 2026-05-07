@@ -28,8 +28,27 @@ async function getConversation(userA: string, userB: string): Promise<Message[]>
     .getMany();
 }
 
+async function getAllConversations(userId: string): Promise<Message[]> {
+  return messageRepository
+    .createQueryBuilder('message')
+    .select([
+      'message.messageId',
+      'message.text',
+      'message.dateMessaged',
+      'sender.userId',
+      'sender.name',
+      'receiver.userId',
+      'recei3er.name',
+    ])
+    .leftJoin('message.sender', 'sender')
+    .leftJoin('message.receiver', 'receiver')
+    .where('message.senderId = :userId OR message.receiverId = :userId', { userId })
+    .orderBy('message.dateMessaged', 'DESC')
+    .getMany();
+}
+
 async function markMessageRead(messageId: string): Promise<void> {
   await messageRepository.update({ messageId }, { isRead: true });
 }
 
-export { getConversation, markMessageRead, sendMessage };
+export { getAllConversations, getConversation, markMessageRead, sendMessage };

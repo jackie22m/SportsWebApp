@@ -69,9 +69,7 @@ async function getMyGames(req: Request, res: Response): Promise<void> {
   try {
     const games = await getPickupGamesByUserId(auth.userId);
 
-    res.status(200).json({
-      games,
-    });
+    res.status(200).json(games);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);

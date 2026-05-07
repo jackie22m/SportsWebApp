@@ -2,8 +2,11 @@
   import { goto } from '$app/navigation';
   import { api } from '$lib/api';
   import Loading from '$lib/components/Loading.svelte';
+  import Modal from '$lib/components/Modal.svelte';
   import { toast } from '$lib/toast.svelte';
   import { onMount } from 'svelte';
+
+  let showConfirm = $state(false);
 
   interface AthleteProfile {
     athleteProfileId: string;
@@ -28,9 +31,24 @@
     createdAt: string;
   }
 
+  interface PickupGame {
+    gameId: string;
+    sport: string;
+    title: string;
+    location: string;
+    date: string;
+    time: string;
+    maxPlayers: number;
+    skillLevelRequired: 'Beginner' | 'Intermediate' | 'Advanced' | 'Professional';
+  }
+
+  let profile: AthleteProfile | null = $state(null);
   let posts: Post[] = $state([]);
+  let games: PickupGame[] = $state([]); // added for pu games
+  let loading = $state(true);
 
   onMount(async () => {
+    // Load profile
     const profileResult = await api.get<AthleteProfile>('/athleteProfiles/me');
 
     if (profileResult.status === 401) {
@@ -43,35 +61,37 @@
       profile = profileResult.data;
     }
 
-    // Fetch posts
+    // Load posts
     const postResult = await api.get<Post[]>('/posts/me');
     if (postResult.ok) {
       posts = postResult.data;
     }
 
+    // load pickup games user is in
+    const gamesResult = await api.get<PickupGame[]>('/pickupGames/me');
+
+    if (gamesResult.ok) {
+      games = gamesResult.data;
+    } else {
+      toast.error('Failed to load your pickup games');
+    }
+
     loading = false;
   });
 
-  let profile: AthleteProfile | null = $state(null);
-  let loading = $state(true);
-
-  onMount(async () => {
-    const result = await api.get<AthleteProfile>('/athleteProfiles/me');
-
-    if (result.status === 401) {
-      toast.error('Please log in to continue');
-      goto('/login');
-      return;
-    }
+  let postToDelete: Post | null = $state(null);
+  async function handleDelete(): Promise<void> {
+    const result = await api.del<Post>(`/posts/${postToDelete?.postId}`);
 
     if (result.ok) {
-      profile = result.data;
+      toast.success('Post deleted');
+      posts = posts.filter((p) => p.postId !== postToDelete?.postId);
     } else {
-      profile = null;
+      toast.error('Failed to delete post');
     }
 
-    loading = false;
-  });
+    showConfirm = false;
+  }
 </script>
 
 <h1>Your Athlete Profile</h1>
@@ -135,9 +155,42 @@
         <small>Posted: {new Date(post.createdAt).toLocaleString()}</small>
         <a href={`/posts/${post.postId}/edit`} role="button"> Edit post </a>
 
+        <button onclick={() => ((postToDelete = post), (showConfirm = true))}>Delete</button>
+
         <hr />
       </div>
     {/each}
+    <Modal title="Delete this item?" bind:open={showConfirm}>
+      <p>This will permanently remove the item.</p>
+
+      <button class="secondary" onclick={() => (showConfirm = false)}>Cancel</button>
+      <button onclick={handleDelete}>Delete</button>
+    </Modal>
+  {/if}
+</section>
+
+<section class="card" style="margin-top: 2rem;">
+  <h2>Your Pickup Games</h2>
+  {#if loading}
+    <p>Loading your pickup games…</p>
+  {:else if games.length === 0}
+    <p>You haven't created or joined any pickup games yet.</p>
+  {:else}
+    <ul>
+      {#each games as game}
+        <div class="game-card">
+          <h3>{game.title}</h3>
+          <p><strong>Sport:</strong> {game.sport}</p>
+          <p><strong>Date:</strong> {game.date}</p>
+          <p><strong>Time:</strong> {game.time}</p>
+          <p><strong>Location:</strong> {game.location}</p>
+          <p><strong>Max Players:</strong> {game.maxPlayers}</p>
+          <p><strong>Skill Level:</strong> {game.skillLevelRequired}</p>
+          <a href={`/pickupGames/${game.gameId}`} role="button"> View Details </a>
+          <hr />
+        </div>
+      {/each}
+    </ul>
   {/if}
 </section>
 

@@ -18,6 +18,19 @@ async function joinGame(
   return gameParticipationRepository.save(participation);
 }
 
+async function findExistingParticipation(
+  userId: string,
+  gameId: string,
+): Promise<gameParticipation | null> {
+  return gameParticipationRepository.findOne({
+    where: {
+      user: { userId },
+      game: { gameId },
+      status: 'joined',
+    },
+  });
+}
+
 // auto join
 async function autoJoinCreator(userId: string, gameId: string): Promise<gameParticipation> {
   const participation = new gameParticipation();
@@ -56,6 +69,7 @@ async function getPlayersInGame(gameId: string): Promise<gameParticipation[]> {
     .andWhere('gp.status = :status', { status: 'joined' })
     .select([
       'gp',
+      'user.userId',
       'user.name',
       'athleteProfile', // loads all athlete profile fields
     ])
@@ -91,6 +105,7 @@ async function updateParticipationStatus(
 
 export {
   autoJoinCreator,
+  findExistingParticipation,
   getPickupGamesByUserId,
   getPlayersInGame,
   joinGame,
